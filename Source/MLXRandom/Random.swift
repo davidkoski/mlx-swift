@@ -37,9 +37,8 @@ public func split(key: MLXArray, into num: Int, stream: StreamOrDevice = .defaul
 /// ### See Also
 /// - ``split(key:into:stream:)``
 public func split(key: MLXArray, stream: StreamOrDevice = .default) -> (MLXArray, MLXArray) {
-    let keys = mlx_random_split(key.ctx, stream.ctx)!
-    defer { mlx_free(keys) }
-    return mlx_tuple_values(keys)
+    let keys = MLXArray(mlx_random_split_equal_parts(key.ctx, 2, stream.ctx))
+    return (keys[0], keys[1])
 }
 
 /// Generate uniformly distributed random numbers with a `RangeExpression`.
